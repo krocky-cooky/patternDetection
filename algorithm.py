@@ -10,7 +10,6 @@ class KNeighborsClassifier:
     def __init__(self,n_neighbors):
         self.n_neighbors = n_neighbors
         
- 
     def fit(self,x,t):
         self.x = x
         self.t = t
@@ -42,7 +41,7 @@ class KNeighborsClassifier:
             for i in range(1,len(sorted_neighbors)):
                 if num != sorted_neighbors[i][1]:
                     break
-                else : majority_list.append(ret)
+                else : majority_list.append(sorted_neighbors[i][0])
             
             for i in range(len(sub)):
                 if sub[i] in majority_list:
@@ -59,6 +58,24 @@ class KNeighborsClassifier:
         acc = np.sum(y == t)/float(y.shape[0])
 
         return acc
+
+    @classmethod
+    def leave_one_out_accuracy(cls,x,t,n_neighbors):
+        correct = 0
+        for i in range(x.shape[0]):
+            mask = np.array([j != i for j in range(x.shape[0])])
+            tmp_x = x[mask]
+            tmp_t = t[mask]
+            clf = cls(n_neighbors = n_neighbors)
+            clf.fit(tmp_x,tmp_t)
+            mask = np.array([j == i for j in range(x.shape[0])])
+            pred = clf.predict(x[mask])
+            if pred[0] == t[i]:
+                correct += 1
+        
+        acc = correct/float(x.shape[0])
+        return acc
+    
 
 
 class KMeans:

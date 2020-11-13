@@ -9,23 +9,21 @@ data = load_iris()
 
 x_train,x_test,t_train,t_test = train_test_split(data.data,data.target,random_state = 0)
 
-way = input()
+#way = input()
 
-if __name__ == '__main__' and way == '1':
+if __name__ == '__main__' :
     x = list()
     y = list()
     for i in range(1,50):
         print('phase : {}'.format(i))
-        clf = KNeighborsClassifier(n_neighbors = i)
-        clf.fit(x_train,t_train)
-        y.append(clf.accuracy(x_test,t_test))
+        accuracy = KNeighborsClassifier.leave_one_out_accuracy(data.data,data.target,n_neighbors = i)
+        y.append(accuracy)
         x.append(i)
         print('done')
 
-    plt.figure()
-    plt.plot(x,y)
+    fig = plt.figure(figsize = (10,7))
+    ax = fig.add_subplot(111)
+    ax.plot(x,y,marker = "o")
+    ax.set_xlabel('n_neighbors')
+    ax.set_ylabel('leave one out accuracy')
     plt.show()
-elif __name__ == '__main__' and way == '2':
-    clf = KMeans(n_clusters = 4)
-    clf.fit(data.data)
-    clf.visualize()
