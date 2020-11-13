@@ -3,6 +3,7 @@ import math
 import sys,os
 import matplotlib.pyplot as plt
 from functions import *
+from mpl_toolkits.mplot3d import Axes3D
 
 
 class KNeighborsClassifier:
@@ -103,7 +104,7 @@ class KMeans:
         self.represent = represent
         self.classify = np.array(classify)
         self.done = True 
-        
+
         print('<< successfully classified >>')
         return self.classify
 
@@ -120,9 +121,38 @@ class KMeans:
             mask = self.classify == i
             scatter_x = self.x[mask][:,argx]
             scatter_y = self.x[mask][:,argy]
-            ax.scatter(scatter_x,scatter_y,s=50,c=self.color_list[i])
+            ax.scatter(scatter_x,scatter_y,s=30,c=self.color_list[i])
+            represent_x = self.represent[i][argx]
+            represent_y = self.represent[i][argy]
+            ax.scatter(represent_x,represent_y,s = 200,c = self.color_list[i],marker = '^',linewidth="2",edgecolors='k')
 
         plt.show()
+
+    def visualize3D(self,argx = 0,argy = 1,argz = 2):
+        if not self.done:
+            print('please fit a data')
+            return
+
+        fig = plt.figure()
+        ax = Axes3D(fig)
+
+        ax.set_xlabel('argx : ' + str(argx))
+        ax.set_ylabel('argy : ' + str(argy))
+        ax.set_zlabel('argz : ' + str(argz))
+
+        for i in range(self.n_clusters):
+            mask = self.classify == i
+            scatter_x = self.x[mask][:,argx]
+            scatter_y = self.x[mask][:,argy]
+            scatter_z = self.x[mask][:,argz]
+            ax.scatter(scatter_x,scatter_y,scatter_z,s=30,c=self.color_list[i])
+            represent_x = self.represent[i][argx]
+            represent_y = self.represent[i][argy]
+            represent_z = self.represent[i][argz]
+            ax.scatter(represent_x,represent_y,represent_z,s = 200,c = self.color_list[i],marker = '^',linewidth="2",edgecolors='k')
+
+        plt.show()
+
 
         
 
