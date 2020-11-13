@@ -31,7 +31,6 @@ class KNeighborsClassifier:
                 else:
                     neighbors[tmp_t[argmin]] = -1
                 dists = np.concatenate([dists[:argmin],dists[argmin+1:]])
-                
                 tmp_t = np.concatenate([tmp_t[:argmin],tmp_t[argmin+1:]])
                 tmp_x = np.concatenate([tmp_x[:argmin],tmp_x[argmin+1:]])
             
@@ -108,30 +107,47 @@ class KMeans:
         print('<< successfully classified >>')
         return self.classify
 
-    def visualize(self,argx = 0,argy = 1):
+    def visualize(self,argx = 0,argy = 1,target = np.array([])):
         if not self.done:
             print('please fit a data')
             return
+        
+        flag = False
+        if target.shape[0]:
+            classify = target
+            
+        else :
+            classify = self.classify
+            flag = True
 
         fig = plt.figure()
         ax = fig.add_subplot(111)
         ax.set_xlabel('argx : ' + str(argx))
         ax.set_ylabel('argy : ' + str(argy))
         for i in range(self.n_clusters):
-            mask = self.classify == i
+            mask = classify == i
             scatter_x = self.x[mask][:,argx]
             scatter_y = self.x[mask][:,argy]
             ax.scatter(scatter_x,scatter_y,s=30,c=self.color_list[i])
             represent_x = self.represent[i][argx]
             represent_y = self.represent[i][argy]
-            ax.scatter(represent_x,represent_y,s = 200,c = self.color_list[i],marker = '^',linewidth="2",edgecolors='k')
+            if flag:
+                ax.scatter(represent_x,represent_y,s = 200,c = self.color_list[i],marker = '^',linewidth="2",edgecolors='k')
 
         plt.show()
 
-    def visualize3D(self,argx = 0,argy = 1,argz = 2):
+    def visualize3D(self,argx = 0,argy = 1,argz = 2,target = np.array([])):
         if not self.done:
             print('please fit a data')
             return
+
+        flag = False
+        if target.shape[0]:
+            classify = target
+            
+        else :
+            classify = self.classify
+            flag = True
 
         fig = plt.figure()
         ax = Axes3D(fig)
@@ -141,7 +157,7 @@ class KMeans:
         ax.set_zlabel('argz : ' + str(argz))
 
         for i in range(self.n_clusters):
-            mask = self.classify == i
+            mask = classify == i
             scatter_x = self.x[mask][:,argx]
             scatter_y = self.x[mask][:,argy]
             scatter_z = self.x[mask][:,argz]
@@ -149,9 +165,46 @@ class KMeans:
             represent_x = self.represent[i][argx]
             represent_y = self.represent[i][argy]
             represent_z = self.represent[i][argz]
-            ax.scatter(represent_x,represent_y,represent_z,s = 200,c = self.color_list[i],marker = '^',linewidth="2",edgecolors='k')
+            if flag:
+                ax.scatter(represent_x,represent_y,represent_z,s = 200,c = self.color_list[i],marker = '^',linewidth="2",edgecolors='k')
 
         plt.show()
+
+    class multipleLinearRegression:
+        def __init__(self):
+            self.x = None
+            self.t = None
+            self.weight = None
+
+        def fit(self,x,t):
+            self.x = self.amend(x)
+            self.t = t
+            self.weight = np.dot(t,np.linalg.pinv(x))
+
+        def predict(self,x):
+            x = self.amend(x)
+            ret = np.dot(x,self.weight)
+            return ret
+
+        def amend(self,x):
+            con = np.array([1])
+            sub = list()
+            for data in x:
+                data = np.concatenate([data,con])
+                sub.append(data)
+            return np.array(sub)
+
+        def score(self,x,t):
+            t_pred = self.predict(x)
+            score = r2_score(t_pred,t)
+            return score
+
+
+
+
+
+
+
 
 
         
