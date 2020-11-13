@@ -51,8 +51,7 @@ class KNeighborsClassifier:
             ans_list.append(ret)
         
         return np.array(ans_list)
-    
-    
+        
     def accuracy(self,x,t):
         y = self.predict(x)
         acc = np.sum(y == t)/float(y.shape[0])

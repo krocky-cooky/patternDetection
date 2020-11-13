@@ -21,7 +21,7 @@ if __name__ == '__main__' :
         x.append(i)
         print('done')
 
-    fig = plt.figure(figsize = (10,7))
+    fig = plt.figure(figsize = (10,4))
     ax = fig.add_subplot(111)
     ax.plot(x,y,marker = "o")
     ax.set_xlabel('n_neighbors')
