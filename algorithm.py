@@ -85,15 +85,20 @@ class KMeans:
         self.represent = None
         self.done = False
         self.color_list = [
-            'b',
-            'r',
-            'g',
+            'tab:blue',
+            'tab:green',
+            'tab:red',
             'y',
             'k',
-            'c',
-            'm',
-            'w'
+            'tab:orange',
+            'tab:purple',
+            'tab:blown',
+            'tab:pink',
+            'tab:gray',
+            'tab:cyan',
+            'tab:olive'
         ]
+        self.cmap = plt.get_cmap("tab10")
 
     def fit(self,x):
         self.x = x
@@ -144,19 +149,24 @@ class KMeans:
             mask = classify == i
             scatter_x = self.x[mask][:,argx]
             scatter_y = self.x[mask][:,argy]
-            ax.scatter(scatter_x,scatter_y,s=30,c=self.color_list[i])
+            ax.scatter(
+                scatter_x,
+                scatter_y,
+                s=30,
+                c=self.cmap(i)
+            )
             represent_x = self.represent[i][argx]
             represent_y = self.represent[i][argy]
             if flag:
                 ax.scatter(
                     represent_x,represent_y,
                     s = 200,
-                    c = self.color_list[i],
+                    c = self.cmap(i),
                     marker = '^',
                     linewidth="2",
                     edgecolors='k',
                 )
-        plt.savefig('{}-{}plot{}.png'.format(argx,argy,flag))
+        #plt.savefig('{}-{}plot{}.png'.format(argx,argy,flag))
         plt.show()
 
     def visualize3D(self,argx = 0,argy = 1,argz = 2,target = np.array([])):
@@ -167,7 +177,6 @@ class KMeans:
         flag = False
         if target.shape[0]:
             classify = target
-            
         else :
             classify = self.classify
             flag = True
@@ -184,7 +193,13 @@ class KMeans:
             scatter_x = self.x[mask][:,argx]
             scatter_y = self.x[mask][:,argy]
             scatter_z = self.x[mask][:,argz]
-            ax.scatter(scatter_x,scatter_y,scatter_z,s=30,c=self.color_list[i])
+            ax.scatter(
+                scatter_x,
+                scatter_y,
+                scatter_z,
+                s=30,
+                c=self.cmap(i)
+            )
             represent_x = self.represent[i][argx]
             represent_y = self.represent[i][argy]
             represent_z = self.represent[i][argz]
@@ -194,13 +209,13 @@ class KMeans:
                     represent_y,
                     represent_z,
                     s = 200,
-                    c = self.color_list[i],
+                    c = self.cmap(i),
                     marker = '^',
                     linewidth="2",
                     edgecolors='k'
                 )
 
-        plt.savefig('{}-{}-{}plot{}.png'.format(argx,argy,argz,flag))
+        #plt.savefig('{}-{}-{}plot{}.png'.format(argx,argy,argz,flag))
         plt.show()
 
     
