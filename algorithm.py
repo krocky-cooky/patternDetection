@@ -51,7 +51,7 @@ class KNeighborsClassifier:
             ans_list.append(ret)
         
         return np.array(ans_list)
-        
+
     def accuracy(self,x,t):
         y = self.predict(x)
         acc = np.sum(y == t)/float(y.shape[0])
@@ -148,8 +148,15 @@ class KMeans:
             represent_x = self.represent[i][argx]
             represent_y = self.represent[i][argy]
             if flag:
-                ax.scatter(represent_x,represent_y,s = 200,c = self.color_list[i],marker = '^',linewidth="2",edgecolors='k')
-
+                ax.scatter(
+                    represent_x,represent_y,
+                    s = 200,
+                    c = self.color_list[i],
+                    marker = '^',
+                    linewidth="2",
+                    edgecolors='k',
+                )
+        plt.savefig('{}-{}plot{}.png'.format(argx,argy,flag))
         plt.show()
 
     def visualize3D(self,argx = 0,argy = 1,argz = 2,target = np.array([])):
@@ -182,9 +189,21 @@ class KMeans:
             represent_y = self.represent[i][argy]
             represent_z = self.represent[i][argz]
             if flag:
-                ax.scatter(represent_x,represent_y,represent_z,s = 200,c = self.color_list[i],marker = '^',linewidth="2",edgecolors='k')
+                ax.scatter(
+                    represent_x,
+                    represent_y,
+                    represent_z,
+                    s = 200,
+                    c = self.color_list[i],
+                    marker = '^',
+                    linewidth="2",
+                    edgecolors='k'
+                )
 
+        plt.savefig('{}-{}-{}plot{}.png'.format(argx,argy,argz,flag))
         plt.show()
+
+    
 
     class multipleLinearRegression:
         def __init__(self):
