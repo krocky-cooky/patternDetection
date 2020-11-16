@@ -220,34 +220,34 @@ class KMeans:
 
     
 
-    class multipleLinearRegression:
-        def __init__(self):
-            self.x = None
-            self.t = None
-            self.weight = None
+class MultipleLinearRegression:
+    def __init__(self):
+        self.x = None
+        self.t = None
+        self.weight = None
 
-        def fit(self,x,t):
-            self.x = self.amend(x)
-            self.t = t
-            self.weight = np.dot(t,np.linalg.pinv(x))
+    def fit(self,x,t):
+        self.x = self.amend(x)
+        self.t = t
+        self.weight = np.dot(np.linalg.pinv(self.x),t)
 
-        def predict(self,x):
-            x = self.amend(x)
-            ret = np.dot(x,self.weight)
-            return ret
+    def predict(self,x):
+        x = self.amend(x)
+        ret = np.dot(x,self.weight)
+        return ret
 
-        def amend(self,x):
-            con = np.array([1])
-            sub = list()
-            for data in x:
-                data = np.concatenate([data,con])
-                sub.append(data)
-            return np.array(sub)
+    def amend(self,x):
+        con = np.array([1])
+        sub = list()
+        for data in x:
+            data = np.concatenate([data,con])
+            sub.append(data)
+        return np.array(sub)
 
-        def score(self,x,t):
-            t_pred = self.predict(x)
-            score = r2_score(t_pred,t)
-            return score
+    def score(self,x,t):
+        t_pred = self.predict(x)
+        score = r2_score(t,t_pred)
+        return score
 
 
 
