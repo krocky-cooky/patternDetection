@@ -230,6 +230,7 @@ class MultipleLinearRegression:
         self.x = self.amend(x)
         self.t = t
         self.weight = np.dot(np.linalg.pinv(self.x),t)
+        return self
 
     def predict(self,x):
         x = self.amend(x)
