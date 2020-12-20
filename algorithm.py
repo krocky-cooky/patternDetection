@@ -1,6 +1,8 @@
 import numpy as np
 import math
 import sys,os
+sys.path.append(os.path.dirname(__file__))
+
 import matplotlib.pyplot as plt
 from functions import *
 from mpl_toolkits.mplot3d import Axes3D
@@ -249,29 +251,4 @@ class MultipleLinearRegression:
         t_pred = self.predict(x)
         score = r2_score(t,t_pred)
         return score
-
-
-
-
-
-
-
-
-
-        
-
-
-
-
-
-        
-
-
-        
-
-            
-
-
-                
-
 
